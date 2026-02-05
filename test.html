@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Valentine?</title>
+  <style>
+    body {
+      height: 100vh;
+      margin: 0;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-family: Arial, sans-serif;
+      background: #ffe6eb;
+    }
+
+    h1 {
+      margin-bottom: 40px;
+      color: #d6336c;
+    }
+
+    .buttons {
+      position: relative;
+      width: 300px;
+      height: 200px;
+    }
+
+    button {
+      padding: 15px 30px;
+      font-size: 18px;
+      cursor: pointer;
+      border: none;
+      border-radius: 8px;
+    }
+
+    #yes {
+      background-color: #ff4d6d;
+      color: white;
+    }
+
+    #no {
+      position: absolute;
+      background-color: #6c757d;
+      color: white;
+    }
+
+    .emoji {
+      position: absolute;
+      font-size: 30px;
+      animation: fly 2s ease-out forwards;
+    }
+
+    @keyframes fly {
+      0% {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(2) translateY(-200px);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1 id="question">WILL YOU BE MY VALENTINE?</h1>
+
+  <div class="buttons" id="buttons">
+    <button id="yes">YES</button>
+    <button id="no">NO</button>
+  </div>
+
+  <script>
+    const noBtn = document.getElementById("no");
+    const container = document.querySelector(".buttons");
+    const yesBtn = document.getElementById("yes");
+    const buttons = document.getElementById("buttons");
+    const question = document.getElementById("question");
+
+    noBtn.addEventListener("mouseover", () => {
+      const maxX = container.clientWidth - noBtn.offsetWidth;
+      const maxY = container.clientHeight - noBtn.offsetHeight;
+
+      noBtn.style.left = Math.random() * maxX + "px";
+      noBtn.style.top = Math.random() * maxY + "px";
+    });
+
+    yesBtn.addEventListener("click", () => {
+      buttons.remove();
+      question.textContent = "YOU JUST MADE MY DAY 💘";
+
+      const emojis = ["🤯", "💥", "😍", "❤️", "🔥", "🥰", "💖", "✨"];
+
+      for (let i = 0; i < 40; i++) {
+        const emoji = document.createElement("div");
+        emoji.className = "emoji";
+        emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        emoji.style.left = Math.random() * window.innerWidth + "px";
+        emoji.style.top = Math.random() * window.innerHeight + "px";
+        emoji.style.animationDuration = (1.5 + Math.random()) + "s";
+
+        document.body.appendChild(emoji);
+
+        setTimeout(() => emoji.remove(), 2000);
+      }
+    });
+  </script>
+
+</body>
+</html>
