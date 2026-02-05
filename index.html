@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Valentine?</title>
+
+<style>
+  body {
+    height: 100vh;
+    margin: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #ffe6eb, #ffd1dc);
+  }
+
+  h1 {
+    margin-bottom: 40px;
+    color: #d6336c;
+    text-align: center;
+  }
+
+  .buttons {
+    position: relative;
+    width: 320px;
+    height: 200px;
+  }
+
+  button {
+    padding: 15px 32px;
+    font-size: 18px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  #yes {
+    background-color: #ff4d6d;
+    color: white;
+  }
+
+  #yes:hover {
+    transform: scale(1.1);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  }
+
+  #no {
+    position: absolute;
+    left: 180px;
+    top: 80px;
+    background-color: #6c757d;
+    color: white;
+  }
+
+  .emoji {
+    position: absolute;
+    font-size: 30px;
+    pointer-events: none;
+    animation: fly 2s ease-out forwards;
+  }
+
+  @keyframes fly {
+    0% {
+      transform: scale(0.5) translateY(0);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(2) translateY(-250px);
+      opacity: 0;
+    }
+  }
+</style>
+</head>
+
+<body>
+
+<h1 id="question">WILL YOU BE MY VALENTINE? 💌</h1>
+
+<div class="buttons" id="buttons">
+  <button id="yes">YES ❤️</button>
+  <button id="no">NO 😅</button>
+</div>
+
+<script>
+  const noBtn = document.getElementById("no");
+  const container = document.querySelector(".buttons");
+  const yesBtn = document.getElementById("yes");
+  const buttons = document.getElementById("buttons");
+  const question = document.getElementById("question");
+
+  function moveNoButton() {
+    const maxX = container.clientWidth - noBtn.offsetWidth;
+    const maxY = container.clientHeight - noBtn.offsetHeight;
+
+    noBtn.style.left = Math.random() * maxX + "px";
+    noBtn.style.top = Math.random() * maxY + "px";
+  }
+
+  // 🔥 continuously run away when mouse gets close
+  container.addEventListener("mousemove", (e) => {
+    const rect = noBtn.getBoundingClientRect();
+    const distance =
+      Math.hypot(
+        e.clientX - (rect.left + rect.width / 2),
+        e.clientY - (rect.top + rect.height / 2)
+      );
+
+    if (distance < 100) { // how close before it escapes
+      moveNoButton();
+    }
+  });
+
+  // also for mobile
+  noBtn.addEventListener("touchstart", moveNoButton);
+
+  yesBtn.addEventListener("click", () => {
+    buttons.remove();
+    question.textContent = "YOU JUST MADE MY DAY 💘";
+
+    const emojis = ["❤️","💖","💘","✨","😍","🔥","🥰"];
+
+    for (let i = 0; i < 50; i++) {
+      const emoji = document.createElement("div");
+      emoji.className = "emoji";
+      emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      emoji.style.left = Math.random() * window.innerWidth + "px";
+      emoji.style.top = Math.random() * window.innerHeight + "px";
+
+      document.body.appendChild(emoji);
+      setTimeout(() => emoji.remove(), 2000);
+    }
+  });
+</script>
+
+
+</body>
+</html>
